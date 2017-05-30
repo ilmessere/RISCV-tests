@@ -1,8 +1,9 @@
 #include "rocc_accum.h"
 
-long long vect[] = {0xAA, 0xBB, 0xCC, 0xDD};
-long long vect2[] = {0, 1, 2, 3};
-long long rf[4];
+int vect[] = {0xAA, 0xBB, 0xCC, 0xDD};
+int vect2[] = {0, 1, 2, 3};
+int rf[4];
+int data = 0xaaaa;
 
 int main(){
 	register int a1 __asm__("a1");
@@ -12,45 +13,31 @@ int main(){
 	register int a5 __asm__("a5");
 	register int a6 __asm__("a6");
 	register int a7 __asm__("a7");
+	register int sp __asm__("sp");
 
-	while(1){
-		a1 = 1;
-		a2 = 2;
-		a3 = 3;
+	int val1 = 0xABCD;
+	int val2 = 0xEF;
 	
-		a4 = (int)vect;
-		a5 = (int)(&vect[1]);
-		a6 = (int)(&vect[2]);
-		a7 = (int)(&vect[3]);
+	a1 = data;
 
-		NOP5();
+	NOP5();
 	
-		ROCC_LOAD(a4, __zero__);
-		ROCC_LOAD(a5, a1);
-	        ROCC_LOAD(a6, a2);
-		ROCC_LOAD(a7, a3);	
-	
-		NOP5();
-		
-		//a4 = (int)rf;
-		//a5 = (int)(&rf[1]);
-		//a6 = (int)(&rf[2]);
-		//a7 = (int)(&rf[3]);
-	
-		//ROCC_STORE(a4, __zero__);
-		//ROCC_STORE(a5, a1);
-	        //ROCC_STORE(a6, a2);
-		//ROCC_STORE(a7, a3);	
-		//
-		//NOP5();
+	ROCC_LOAD(&vect[0], __zero__);
+	ROCC_LOAD(&vect[1], a1);
 
-		a4 = (int) vect2;	
-		ROCC_BURST_LOAD(a4);
-
-		NOP5();
-
-		//a5 = (int) rf;
-		//ROCC_BURST_STORE(a5);
+	NOP5();
+	for(a1 = 0; a1 < 4; a1++){
+		ROCC_LOAD(&vect[a1], a1);
 	}
-		
+	NOP5();
+
+	a1 = 1;
+	a2 = 2;
+
+	ROCC_WRITE(a1, __zero__);
+	ROCC_LOAD(&val1, a1);
+	
+	a1 = 0;
+
+			
 }
