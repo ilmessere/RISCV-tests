@@ -19,14 +19,14 @@ ifndef IDIR
 endif
 
 CC_FLAGS += -static -I$(IDIR) -nostdlib -nostartfiles -T $(LINK_FILE) 
-OBJCP_FLAGS += -j .text -j .eh_frame -j .shbss -j .rodata -j .data -j .sdata -O binary
+OBJCP_FLAGS += -j .text -j .text.init -j .eh_frame -j .shbss -j .rodata -j .data -j .sdata -O binary
 OBJDUMP_FLAGS += -D
 HEXDUMP_FLAGS += -v -e '1/8 "%08x\n"'
 
 all: $(PROG) $(BINARY) $(MEM) $(DUMP)
 
 $(PROG) : $(CSRC) $(LINK_FILE)
-	$(CC) $(CC_FLAGS) -o $(PROG) $(CSRC)
+	$(CC) $(CC_FLAGS) -o $(PROG) $(CSRC) $(BASE)/include/entry.S
 $(BINARY) : $(PROG)
 	$(OBJCP) $(OBJCP_FLAGS) $(PROG) $(BINARY)
 $(MEM): $(BINARY)
