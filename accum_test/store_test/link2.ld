@@ -3,7 +3,7 @@ OUTPUT_ARCH( "riscv" )
 SECTIONS
 {
   . = 0x80000000;
-  .text.init : { *(.text.init) }
+  .text.main : { *(.text.main) }
   .tohost : { *(.tohost) }
   .text : { *(.text) }
   .data : { *(.data) }
