@@ -7,7 +7,7 @@ register unsigned __zero__ asm("zero");
 #define NOP()	\
     asm volatile("nop")
 
-#define NOP5(){  \
+#define NOP5() {  \
 	NOP();	\
 	NOP();	\
 	NOP();	\
@@ -15,7 +15,7 @@ register unsigned __zero__ asm("zero");
 	NOP();	\
 }
 
-#define NOP10(){	\
+#define NOP10() { \
 	NOP5(); 	\
 	NOP5();		\
 }
