@@ -1,8 +1,11 @@
 BASE = /nobackup/dp252572/rocc_prog_tests
 RISCV = /nobackup/dp252572/riscv
 
+ifndef ARCH
+  ARCH = 32
+endif
 ifndef ARCH_PREFIX
-  ARCH_PREFIX = riscv32-unknown-elf
+  ARCH_PREFIX = riscv$(ARCH)-unknown-elf
 endif
 
 CC = $(RISCV)/bin/$(ARCH_PREFIX)-gcc
@@ -26,7 +29,7 @@ HEXDUMP_FLAGS += -v -e '1/8 "%08x\n"'
 all: $(PROG) $(BINARY) $(MEM) $(DUMP)
 
 $(PROG) : $(CSRC) $(LINK_FILE)
-	$(CC) $(CC_FLAGS) -o $(PROG) $(CSRC) $(BASE)/include/entry.S
+	$(CC) $(CC_FLAGS) -o $(PROG) $(CSRC) $(BASE)/include/entry_$(ARCH).S
 $(BINARY) : $(PROG)
 	$(OBJCP) $(OBJCP_FLAGS) $(PROG) $(BINARY)
 $(MEM): $(BINARY)

@@ -49,7 +49,6 @@
 #define ROCC_BURST_STORE()  \
   custom0(FUNCT_ROCC_BURST_STORE, 0, 0, 0);
 
-
 #define ROCC_BURST_LOAD_RES(res)   \
   res = custom0_rd(FUNCT_ROCC_BURST_LOAD, res, 0, 0);
 
@@ -73,6 +72,24 @@
   custom0(FUNCT_ROCC_COMPUTE, 0,0,0)
 
  
+volatile static inline void rocc_write_aes128_key(unsigned *key){
+  ROCC_WRITE_REG(0, key[0]);
+  ROCC_WRITE_REG(1, key[1]);
+  ROCC_WRITE_REG(2, key[2]);
+  ROCC_WRITE_REG(3, key[3]);
+}
 
+volatile static inline void rocc_write_aes128_block(unsigned *data){
+  ROCC_WRITE_REG(8, data[0]);
+  ROCC_WRITE_REG(9, data[1]);
+  ROCC_WRITE_REG(10, data[2]);
+  ROCC_WRITE_REG(11, data[3]);
+}
 
+volatile static inline void rocc_store_aes128_cipher(unsigned *cipher){
+  ROCC_STORE_REG(&cipher[0], 12);
+  ROCC_STORE_REG(&cipher[1], 13);
+  ROCC_STORE_REG(&cipher[2], 14);
+  ROCC_STORE_REG(&cipher[3], 15);
+}
 #endif
